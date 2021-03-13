@@ -1,0 +1,7 @@
+README.rst
+setup.py
+coinbasewebsocket/__init__.py
+coinbasewebsocket.egg-info/PKG-INFO
+coinbasewebsocket.egg-info/SOURCES.txt
+coinbasewebsocket.egg-info/dependency_links.txt
+coinbasewebsocket.egg-info/top_level.txt
