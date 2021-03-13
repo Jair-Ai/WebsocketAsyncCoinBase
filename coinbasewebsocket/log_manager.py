@@ -9,7 +9,7 @@ class Logging:
     def __init__(self):
         log_level: int = logging.getLevelName(settings.LOG_LEVEL)
 
-        self.root: logging.Logger = logging.getLogger('mlda')
+        self.root: logging.Logger = logging.getLogger('CoinBaseWebSocket')
         self.root.setLevel(log_level)
 
         self.channel: logging.StreamHandler = logging.StreamHandler(sys.stdout)

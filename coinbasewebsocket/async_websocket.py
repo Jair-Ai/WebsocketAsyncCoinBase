@@ -1,7 +1,6 @@
 import asyncio
 import json
-import logging
-import traceback
+
 
 import websockets
 from typing import Dict
@@ -36,9 +35,9 @@ async def consumer_handler(websocket: websockets.WebSocketClientProtocol):
         log_message(json.loads(message))
 
 
-async def consume(uri: str):
+async def consume(uri_server: str):
     try:
-        async with websockets.connect(uri) as websocket:
+        async with websockets.connect(uri_server) as websocket:
             await websocket.send(message=json.dumps(subscribe_message))
             await consumer_handler(websocket)
     except ConnectionRefusedError as refused:
@@ -48,6 +47,7 @@ async def consume(uri: str):
     except Exception as e:
         logger.error(f"Oops{e.__class__} occurred.")
         raise
+
 
 def log_message(message: Dict[str, str]) -> None:
     if message['type'] != 'ticker':
