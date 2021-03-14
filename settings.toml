@@ -1,1 +1,5 @@
-assets=['BTC-USD', 'ETH-USD', 'ETH-BTC']
+ASSETS=['BTC-USD', 'ETH-USD', 'ETH-BTC']
+CHANNEL=['match']
+TYPE=['subscriber']
+WAIT_TIMEOUT=2
+URI = 'wss://ws-feed-public.sandbox.pro.coinbase.com'
