@@ -14,11 +14,11 @@ class PricesHandler:
         self.volume = {asset: deque(maxlen=window) for asset in assets}
         self.vwap = {asset: deque(maxlen=window) for asset in assets}
 
-    def vwap_calculation(self) -> np.array:
+    async def vwap_calculation(self) -> np.array:
         numpy_volume = np.array(self.vwap)
         return np.multiply(self.price, numpy_volume).cumsum() / numpy_volume.cumsum()[-1]
 
-    def check_data(self, message: Dict[str, str]):
+    async def check_data(self, message: Dict[str, str]):
         try:
             self.price[message['product_id']].append(float(message['price']))
             self.volume[message['product_id']].append(float(message['price']))
