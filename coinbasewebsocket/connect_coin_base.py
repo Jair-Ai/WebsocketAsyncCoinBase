@@ -5,7 +5,13 @@ import websocket
 
 class Client:
 
-    def __init__(self, production=False, ticker=[], level2=[], user=[], ohlc=[], credentials=None):
+    def __init__(self,
+                 production=False,
+                 ticker=[],
+                 level2=[],
+                 user=[],
+                 ohlc=[],
+                 credentials=None):
         self.url = 'wss://ws-feed-public.sandbox.pro.coinbase.com'
         self.production = production
 
@@ -19,8 +25,10 @@ class Client:
 
         if self.production:
             self.url = 'wss://ws-feed.pro.coinbase.com'
-        self._subscription = self.subscription(self._ticker, self._level2, self._user, self._credentials)
-        self.data = self.set_data(self._subscription, self._ohlc, self.production)
+        self._subscription = self.subscription(self._ticker, self._level2,
+                                               self._user, self._credentials)
+        self.data = self.set_data(self._subscription, self._ohlc,
+                                  self.production)
         self.messages = []
         self.ws = None
         self.conn_thread = None
@@ -28,7 +36,11 @@ class Client:
         self.error_count = 0
         self.max_errors_allowed = 1000
 
-        self.PRODUCTS = ['BTC-USD', 'LTC-USD', 'ETH-USD', 'ETC-USD', 'LTC-BTC', 'ETH-BTC', 'ETC-BTC', 'BCH-USD',
-                         'BCH-BTC', 'ZRX-USD', 'ZRX-BTC']
-        self.accepted_message_type = ["error", "ticker", "snapshot", "l2update", "received", "open", "done", "match",
-                                      "change", "activate"]
+        self.PRODUCTS = [
+            'BTC-USD', 'LTC-USD', 'ETH-USD', 'ETC-USD', 'LTC-BTC', 'ETH-BTC',
+            'ETC-BTC', 'BCH-USD', 'BCH-BTC', 'ZRX-USD', 'ZRX-BTC'
+        ]
+        self.accepted_message_type = [
+            "error", "ticker", "snapshot", "l2update", "received", "open",
+            "done", "match", "change", "activate"
+        ]

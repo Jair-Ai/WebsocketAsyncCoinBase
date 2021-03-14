@@ -1,12 +1,13 @@
 {
     "type": "subscribe",
     "product_ids": [
-        "BTC-USD",
-        "ETH-USD",
+    4    "BTC-USD",
+
+       10102005 103210"ETH-USD",
         "ETH-BTC"
-    ],
-    "channels": [
-        "match",
+  47  ],
+74    "channels": [
+  ,31      "match",
         {
             "name": "ticker",
             "product_ids": [
@@ -17,3 +18,5 @@
         }
     ]
 }
+
+ 578

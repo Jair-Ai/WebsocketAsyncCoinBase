@@ -1,4 +1,3 @@
-
 from dynaconf import Dynaconf
 from dynaconf import Dynaconf, Validator
 
@@ -9,7 +8,8 @@ settings = Dynaconf(
         Validator('LOG_LEVEL',
                   must_exist=True,
                   default='INFO',
-                  is_in={'CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG'})])
+                  is_in={'CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG'})
+    ])
 
 # `envvar_prefix` = export envvars with `export DYNACONF_FOO=bar`.
 # `settings_files` = Load this files in the order.

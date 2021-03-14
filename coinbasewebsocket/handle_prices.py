@@ -5,6 +5,26 @@ import numpy as np
 
 from log_manager import logger
 
+mess_coin = {
+    "type": "subscribe",
+    "product_ids": [
+        "BTC-USD",
+        "ETH-USD",
+        "ETH-BTC"
+    ],
+    "channels": [
+        "match",
+        {
+            "name": "ticker",
+            "product_ids": [
+                "BTC-USD",
+                "ETH-USD",
+                "ETH-BTC"
+            ]
+        }
+    ]
+}
+
 
 class PricesHandler:
 
@@ -14,16 +34,20 @@ class PricesHandler:
         self.volume = {asset: deque(maxlen=window) for asset in assets}
         self.vwap = {asset: deque(maxlen=window) for asset in assets}
 
-    async def vwap_calculation(self) -> np.array:
+    def vwap_calculation(self) -> np.array:
         numpy_volume = np.array(self.vwap)
-        return np.multiply(self.price, numpy_volume).cumsum() / numpy_volume.cumsum()[-1]
+        return np.multiply(self.price,
+                           numpy_volume).cumsum() / numpy_volume.cumsum()[-1]
 
-    async def check_data(self, message: Dict[str, str]):
+    def check_data(self, message: Dict[str, str]):
         try:
             self.price[message['product_id']].append(float(message['price']))
             self.volume[message['product_id']].append(float(message['price']))
-            self.vwap[message['vwap']].append(self.vwap_calculation)
+            self.vwap[message['product_id']].append(self.vwap_calculation)
         except TypeError as e:
-            logger.warning(f"{dt.now()} - Error on insert {message['product_id']} prices, ERROR->{e.__class__}")
+            logger.warning(
+                f"{dt.now()} - Error on insert {message['product_id']} prices, ERROR->{e.__class__}"
+            )
         else:
-            logger.info(f"{dt.now()} Vwap {message['product_id']} - {self.vwap[-1]}")
+            logger.info(
+                f"{dt.now()} Vwap {message['product_id']} - {self.vwap[-1]}")
