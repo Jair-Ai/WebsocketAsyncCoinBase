@@ -10,7 +10,7 @@ def event_loop():
     loop.close()
 
 
-def send_message():
+@fixture(scope='function')
+def send_async_message():
     assets = settings.ASSETS
     wellcome_message = ''
-

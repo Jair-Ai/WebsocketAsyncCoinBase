@@ -43,7 +43,6 @@ COPY . .
 # 👇 Here we set the non-root user
 USER user
 
-
 # 👇 Using poetry to manage better our dependencies
 RUN poetry install --no-interaction --no-ansi
 
@@ -52,4 +51,4 @@ RUN poetry install --no-interaction --no-ansi
 ENTRYPOINT ["/tini", "--"]
 
 # 👇 Run
-CMD ["/coinbasewebsocket/async_websocket.py"]
+CMD ["coinbasewebsocket/async_websocket.py"]

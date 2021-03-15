@@ -6,8 +6,6 @@ authors = ["Jair Bitcoin <bravosinvest@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-websocket = "^0.2.1"
-dash = {extras = ["complete"], version = "^1.19.0"}
 dynaconf = "^3.1.4"
 websockets = "^8.1"
 numpy = "^1.20.1"

@@ -114,7 +114,7 @@ def test_check_data_type_error(caplog):
     assert "Error on insert ETH-BTC prices, ERROR -> <class 'ValueError'>" in caplog.text
 
 
-def test_check_data_sucess(caplog):
+def test_check_data_success(caplog):
     trade_message = {
         'type': 'ticker',
         'sequence': 18829080,
