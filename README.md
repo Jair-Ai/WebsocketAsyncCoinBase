@@ -31,6 +31,8 @@ Run unittests:
 pytest -s -vv -x --cov-report term-missing --cov=. tests/
 ```
 
+![alt text](tests/cover_project.png)
+
 ## Run websocket vwap on container
  1- In the same folder copy this command to build image:
 ```bash
