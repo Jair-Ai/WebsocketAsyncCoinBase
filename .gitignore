@@ -251,3 +251,7 @@ Thumbs.db #thumbnail cache on Windows
 #Dynaconf
 # End of https://www.toptal.com/developers/gitignore/api/python,pycharm+all,vscode
 .secrets.*
+
+.idea
+
+__pycache__

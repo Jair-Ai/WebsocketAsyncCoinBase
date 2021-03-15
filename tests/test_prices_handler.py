@@ -49,11 +49,15 @@ def test_check_data_insert_values():
     for trade_message in range_trade:
         prices_handler.check_data(trade_message)
 
-    assert prices_handler.price[range_trade[-1]['product_id']][-1] == float(range_trade[-1]['price'])
-    assert prices_handler.price[range_trade[-1]['product_id']][0] == float(range_trade[4]['price'])
+    assert prices_handler.price[range_trade[-1]['product_id']][-1] == float(
+        range_trade[-1]['price'])
+    assert prices_handler.price[range_trade[-1]['product_id']][0] == float(
+        range_trade[4]['price'])
 
-    assert prices_handler.volume[range_trade[-1]['product_id']][-1] == float(range_trade[-1]['last_size'])
-    assert prices_handler.volume[range_trade[-1]['product_id']][0] == float(range_trade[4]['last_size'])
+    assert prices_handler.volume[range_trade[-1]['product_id']][-1] == float(
+        range_trade[-1]['last_size'])
+    assert prices_handler.volume[range_trade[-1]['product_id']][0] == float(
+        range_trade[4]['last_size'])
 
 
 def test_vwap_five_messages(event_loop):
@@ -83,9 +87,12 @@ def test_vwap_five_messages(event_loop):
     for trade_message in range_trade:
         prices_handler.check_data(trade_message)
 
-    vwap_5 = (np.multiply(price_range[:5], volume_range[:5]).cumsum()) / volume_range[:5].cumsum()
+    vwap_5 = (np.multiply(
+        price_range[:5],
+        volume_range[:5]).cumsum()) / volume_range[:5].cumsum()
 
-    vwap_from_class = np.array(prices_handler.vwap[range_trade[1]['product_id']])
+    vwap_from_class = np.array(
+        prices_handler.vwap[range_trade[1]['product_id']])
 
     np.testing.assert_array_equal(vwap_5, np.array(vwap_from_class[:5]))
 
@@ -106,7 +113,8 @@ def test_check_data_type_error(caplog):
         'side': 'buy',
         'time': '2021-03-14T23:16:25.948518Z',
         'trade_id': '3',
-        'last_size': '0.03'}
+        'last_size': '0.03'
+    }
 
     prices_handler = PricesHandler(settings.ASSETS.to_list())
     prices_handler.check_data(trade_message)
@@ -130,7 +138,8 @@ def test_check_data_success(caplog):
         'side': 'buy',
         'time': '2021-03-14T23:16:25.948518Z',
         'trade_id': '3',
-        'last_size': '0.03'}
+        'last_size': '0.03'
+    }
 
     prices_handler = PricesHandler(settings.ASSETS.to_list())
     prices_handler.check_data(trade_message)
@@ -156,7 +165,8 @@ def test_duplicated_message(caplog):
         'side': 'buy',
         'time': '2021-03-14T23:16:25.948518Z',
         'trade_id': '3',
-        'last_size': '0.03'}, {
+        'last_size': '0.03'
+    }, {
         'type': 'ticker',
         'sequence': 18829080,
         'product_id': 'ETH-BTC',
@@ -171,7 +181,8 @@ def test_duplicated_message(caplog):
         'side': 'buy',
         'time': '2021-03-14T23:16:25.948518Z',
         'trade_id': '3',
-        'last_size': '0.03'}]
+        'last_size': '0.03'
+    }]
 
     new_message = {
         'type': 'ticker',
@@ -188,7 +199,8 @@ def test_duplicated_message(caplog):
         'side': 'buy',
         'time': '2021-03-14T23:16:25.948518Z',
         'trade_id': '4',
-        'last_size': '0.03'}
+        'last_size': '0.03'
+    }
 
     # adding first message
 
