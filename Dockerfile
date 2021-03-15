@@ -52,4 +52,4 @@ RUN poetry install --no-interaction --no-ansi
 ENTRYPOINT ["/tini", "--"]
 
 # 👇 Run
-CMD ["/coinbasewebsocke/async_websocket.py"]
+CMD ["/coinbasewebsocket/async_websocket.py"]

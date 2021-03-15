@@ -42,7 +42,7 @@ def test_check_data_insert_values():
         'best_ask': '0.03119',
         'side': 'buy',
         'time': '2021-03-14T23:16:25.948518Z',
-        'trade_id': tick,
+        'trade_id': str(tick),
         'last_size': str(volume_range[tick])
     } for tick in range(1, 205)]
 
@@ -76,7 +76,7 @@ def test_vwap_five_messages(event_loop):
         'best_ask': '0.03119',
         'side': 'buy',
         'time': '2021-03-14T23:16:25.948518Z',
-        'trade_id': tick,
+        'trade_id': str(tick),
         'last_size': str(volume_range[tick])
     } for tick in range(0, 5)]
 
@@ -136,3 +136,72 @@ def test_check_data_sucess(caplog):
     prices_handler.check_data(trade_message)
 
     assert f"Vwap {trade_message['product_id']} - {trade_message['price']}" in caplog.text
+
+
+def test_duplicated_message(caplog):
+    prices_handler = PricesHandler(settings.ASSETS.to_list())
+
+    duplicated_message = [{
+        'type': 'ticker',
+        'sequence': 18829080,
+        'product_id': 'ETH-BTC',
+        'price': '0.03258',
+        'open_24h': '0.03141',
+        'volume_24h': '223.95906816',
+        'low_24h': '0.03086',
+        'high_24h': '0.0318',
+        'volume_30d': '546175.37374905',
+        'best_bid': '0.03117',
+        'best_ask': '0.03119',
+        'side': 'buy',
+        'time': '2021-03-14T23:16:25.948518Z',
+        'trade_id': '3',
+        'last_size': '0.03'}, {
+        'type': 'ticker',
+        'sequence': 18829080,
+        'product_id': 'ETH-BTC',
+        'price': '0.03258',
+        'open_24h': '0.03141',
+        'volume_24h': '223.95906816',
+        'low_24h': '0.03086',
+        'high_24h': '0.0318',
+        'volume_30d': '546175.37374905',
+        'best_bid': '0.03117',
+        'best_ask': '0.03119',
+        'side': 'buy',
+        'time': '2021-03-14T23:16:25.948518Z',
+        'trade_id': '3',
+        'last_size': '0.03'}]
+
+    new_message = {
+        'type': 'ticker',
+        'sequence': 18829080,
+        'product_id': 'ETH-BTC',
+        'price': '0.03258',
+        'open_24h': '0.03141',
+        'volume_24h': '223.95906816',
+        'low_24h': '0.03086',
+        'high_24h': '0.0318',
+        'volume_30d': '546175.37374905',
+        'best_bid': '0.03117',
+        'best_ask': '0.03119',
+        'side': 'buy',
+        'time': '2021-03-14T23:16:25.948518Z',
+        'trade_id': '4',
+        'last_size': '0.03'}
+
+    # adding first message
+
+    prices_handler.check_data(duplicated_message[0])
+
+    # adding duplicated message
+
+    prices_handler.check_data(duplicated_message[1])
+
+    # adding new message
+
+    prices_handler.check_data(new_message)
+
+    assert len(prices_handler.price[new_message['product_id']]) == 2
+
+    assert f"Got duplicated message on {duplicated_message[1]['product_id']}, trade_id = {duplicated_message[1]['trade_id']}" in caplog.text
