@@ -1,14 +1,17 @@
 import asyncio
-import os
 import json
 import websockets
-from typing import Dict, List, Union, Callable, Any
+from typing import Dict, List, Union, Callable
 
-from log_manager import logger
-from handle_prices import PricesHandler
+from coinbasewebsocket.log_manager import logger
+from prices_handler import PricesHandler
 from config import settings
 
-MESSAGE_FOR_COINBASE = Dict[str, Union[str, List[str], List[Union[str, Dict[str, Union[str, List[str]]]]]]]
+MESSAGE_FOR_COINBASE = Dict[str, Union[str, List[str],
+                                       List[Union[str,
+                                                  Dict[str,
+                                                       Union[str,
+                                                             List[str]]]]]]]
 
 
 def build_message():
@@ -39,9 +42,9 @@ async def consumer_handler(websocket: websockets.WebSocketClientProtocol,
         check_message_from_broker(json.loads(message), func)
 
 
-async def async_websocket_connect(
-        uri_server: str,
-        subscribe_message: MESSAGE_FOR_COINBASE):
+async def async_websocket_connect(uri_server: str,
+                                  subscribe_message: MESSAGE_FOR_COINBASE):
+
     prices_handler = PricesHandler(settings.ASSETS)
     try:
         async with websockets.connect(uri_server) as websocket:
@@ -54,6 +57,7 @@ async def async_websocket_connect(
     except Exception as e:
         logger.error(f"Oops{e.__class__} occurred.")
         raise
+
 
 loop = asyncio.get_event_loop()
 message_to_coinbase = build_message()

@@ -16,7 +16,7 @@ ENV PYTHONUNBUFFERED=1 \
     POETRY_CACHE_DIR='/var/cache/pypoetry'
 
 
-# 👇
+# 👇 Tini version
 ENV TINI_VERSION="v0.19.0"
 
 # 👇
@@ -40,22 +40,16 @@ RUN useradd -m -r user && \
 # 👇
 COPY . .
 
-# 👇
-ARG GIT_HASH
-ENV GIT_HASH=${GIT_HASH:-dev}
-# 👆
-
-
-# 👇 here we set the user
+# 👇 Here we set the non-root user
 USER user
 
 
-# 👇
+# 👇 Using poetry to manage better our dependencies
 RUN poetry install --no-interaction --no-ansi
 
 
 # 👇 Using tini to run software
 ENTRYPOINT ["/tini", "--"]
 
-
+# 👇 Run
 CMD ["/coinbasewebsocke/async_websocket.py"]
