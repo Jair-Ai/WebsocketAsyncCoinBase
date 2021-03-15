@@ -47,8 +47,8 @@ async def async_websocket_connect(
         async with websockets.connect(uri_server) as websocket:
             await websocket.send(json.dumps(subscribe_message))
             await consumer_handler(websocket, prices_handler.check_data)
-    except websockets.WebSocketProtocolError as refused:
-        logger.error(refused)
+    except websockets.WebSocketProtocolError as conn_refused:
+        logger.error(f'Connection refused reason: {conn_refused.reason}')
     except websockets.ConnectionClosed as conn_close:
         logger.error(f"Connection Closed reason: {conn_close.reason}.")
     except Exception as e:

@@ -5,26 +5,6 @@ import numpy as np
 
 from log_manager import logger
 
-mess_coin = {
-    "type": "subscribe",
-    "product_ids": [
-        "BTC-USD",
-        "ETH-USD",
-        "ETH-BTC"
-    ],
-    "channels": [
-        "match",
-        {
-            "name": "ticker",
-            "product_ids": [
-                "BTC-USD",
-                "ETH-USD",
-                "ETH-BTC"
-            ]
-        }
-    ]
-}
-
 
 class PricesHandler:
 
@@ -40,9 +20,10 @@ class PricesHandler:
                            numpy_volume).cumsum() / numpy_volume.cumsum()[-1]
 
     def check_data(self, message: Dict[str, str]):
+        # TODO: Before that check if the trade id is not the same as the last one.
         try:
             self.price[message['product_id']].append(float(message['price']))
-            self.volume[message['product_id']].append(float(message['price']))
+            self.volume[message['product_id']].append(float(message['last_size']))
             self.vwap[message['product_id']].append(self.vwap_calculation)
         except TypeError as e:
             logger.warning(

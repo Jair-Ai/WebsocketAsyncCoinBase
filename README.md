@@ -4,12 +4,15 @@
 
 
 
-###Simple software to get ticks from Coinbase Match Channel, and calculate Vwap
+### Simple software to get ticks from Coinbase Match Channel, and calculate Vwap
 
+### References:
+[`vwap formula`](https://ml.pages.voltaware.com/ml-data-access/mlda.html#mlda.retrieve_smart_cables)
 
+[`coinbase match channel`](https://docs.pro.coinbase.com/#the-matches-channel)
 
-##Development
-### Useful commands:
+###Development
+#### Useful commands:
 
 Format files:
 ```bash
